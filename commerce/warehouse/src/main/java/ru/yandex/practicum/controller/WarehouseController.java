@@ -1,16 +1,16 @@
 package ru.yandex.practicum.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.client.WarehouseClient;
-import ru.yandex.practicum.client.WarehouseOperations;
+import ru.yandex.practicum.client.warehouse.WarehouseOperations;
 import ru.yandex.practicum.dto.cart.ShoppingCartDto;
-import ru.yandex.practicum.dto.warehouse.AddProductToWarehouseRequest;
-import ru.yandex.practicum.dto.warehouse.AddressDto;
-import ru.yandex.practicum.dto.warehouse.BookedProductsDto;
-import ru.yandex.practicum.dto.warehouse.NewProductInWarehouseRequest;
+import ru.yandex.practicum.dto.warehouse.*;
 import ru.yandex.practicum.service.WarehouseService;
+
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/warehouse")
@@ -37,5 +37,20 @@ public class WarehouseController implements WarehouseOperations {
     @GetMapping("/address")
     public AddressDto getAddress() {
         return warehouseService.getAddress();
+    }
+
+    @PostMapping("/shipped")
+    public void createTransfer(@Valid @RequestBody ShippedToDeliveryRequest request) {
+        warehouseService.createTransfer(request);
+    }
+
+    @PostMapping("/return")
+    public void returnProducts(@NotNull @RequestBody Map<UUID, Long> products) {
+        warehouseService.returnProducts(products);
+    }
+
+    @PostMapping("/assembly")
+    public BookedProductsDto assemblyProducts(@Valid @RequestBody AssemblyProductsForOrderRequest request) {
+        return warehouseService.assemblyProducts(request);
     }
 }

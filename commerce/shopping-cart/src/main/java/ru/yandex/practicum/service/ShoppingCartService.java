@@ -2,7 +2,7 @@ package ru.yandex.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.client.WarehouseClient;
+import ru.yandex.practicum.client.warehouse.WarehouseClient;
 import ru.yandex.practicum.dto.cart.ChangeProductQuantityRequestDto;
 import ru.yandex.practicum.dto.cart.ShoppingCartDto;
 import ru.yandex.practicum.dto.cart.ShoppingCartState;
