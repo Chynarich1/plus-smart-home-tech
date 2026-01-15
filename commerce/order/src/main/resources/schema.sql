@@ -1,17 +1,7 @@
 
-CREATE TABLE IF NOT EXISTS addresses (
-    address_id UUID PRIMARY KEY,
-    country VARCHAR(255),
-    city VARCHAR(255),
-    street VARCHAR(255),
-    house VARCHAR(50),
-    flat VARCHAR(50)
-);
-
 CREATE TABLE IF NOT EXISTS orders (
     order_id UUID PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
-    address_id UUID REFERENCES addresses(address_id),
     shopping_cart_id UUID,
     payment_id UUID,
     delivery_id UUID,

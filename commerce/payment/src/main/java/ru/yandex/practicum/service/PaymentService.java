@@ -59,7 +59,7 @@ public class PaymentService {
     }
 
     private Payment getById(UUID id) {
-        return paymentRepository.findByPaymentId(id).orElseThrow(() ->
+        return paymentRepository.findById(id).orElseThrow(() ->
                 new NotEnoughInfoInOrderToCalculateException("Не найдена оплата"));
     }
 

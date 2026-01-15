@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface OrderOperations {
     @PostMapping("/payment")
-    OrderDto payOrder(UUID id);
+    OrderDto payOrder(@RequestBody @NotNull UUID id);
 
     @PostMapping("/payment/failed")
     OrderDto failOrder(@NotNull @RequestBody UUID id);
 
     @PostMapping("/assembly")
-    OrderDto assemblyOrder(UUID id);
+    OrderDto assemblyOrder(@RequestBody @NotNull UUID id);
 
     @PostMapping("/delivery")
     OrderDto deliverOrder(@NotNull @RequestBody UUID id);

@@ -29,4 +29,7 @@ public class Delivery {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DeliveryState deliveryState;
+    private Double deliveryWeight;
+    private Double deliveryVolume;
+    private Boolean fragile;
 }

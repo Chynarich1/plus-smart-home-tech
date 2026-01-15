@@ -9,7 +9,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
-    @Mapping(target = "address", ignore = true)
     Order toModel(OrderDto dto, String username);
 
     OrderDto toDto(Order order);

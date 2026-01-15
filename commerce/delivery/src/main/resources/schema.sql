@@ -13,5 +13,8 @@ CREATE TABLE IF NOT EXISTS deliveries (
     from_address_id UUID REFERENCES addresses(address_id) NOT NULL,
     to_address_id UUID REFERENCES addresses(address_id) NOT NULL,
     order_id UUID NOT NULL,
-    delivery_state VARCHAR(255) NOT NULL
+    delivery_state VARCHAR(255) NOT NULL,
+    delivery_weight REAL,
+    delivery_volume REAL,
+    fragile BOOLEAN
 );

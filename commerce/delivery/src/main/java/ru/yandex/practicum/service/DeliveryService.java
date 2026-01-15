@@ -55,27 +55,26 @@ public class DeliveryService {
     }
 
     private Delivery getById(UUID id) {
-        return deliveryRepository.findByDeliveryId(id).orElseThrow(() ->
+        return deliveryRepository.findById(id).orElseThrow(() ->
                 new NoDeliveryFoundException("Не найдена доставка"));
     }
 
-    private void changeStatus(UUID id, DeliveryState state) {
+    private Delivery changeStatus(UUID id, DeliveryState state) {
         Delivery existingDelivery = getById(id);
         existingDelivery.setDeliveryState(state);
-        deliveryRepository.save(existingDelivery);
+        return deliveryRepository.save(existingDelivery);
     }
 
+    @Transactional
     public void successfulDelivery(UUID id) {
-        changeStatus(id, DeliveryState.DELIVERED);
+        Delivery existingDelivery = changeStatus(id, DeliveryState.DELIVERED);
 
-        orderClient.deliverOrder(getById(id).getOrderId());
+        orderClient.deliverOrder(existingDelivery.getOrderId());
     }
 
     @Transactional
     public void pickedDelivery(UUID id) {
-        Delivery existingDelivery = getById(id);
-        existingDelivery.setDeliveryState(DeliveryState.IN_PROGRESS);
-        deliveryRepository.save(existingDelivery);
+        Delivery existingDelivery = changeStatus(id, DeliveryState.IN_PROGRESS);
 
         orderClient.assemblyOrder(existingDelivery.getOrderId());
 
@@ -85,10 +84,11 @@ public class DeliveryService {
                 .build());
     }
 
+    @Transactional
     public void failedDelivery(UUID id) {
-        changeStatus(id, DeliveryState.FAILED);
+        Delivery existingDelivery = changeStatus(id, DeliveryState.FAILED);
 
-        orderClient.deliverFailedOrder(getById(id).getOrderId());
+        orderClient.deliverFailedOrder(existingDelivery.getOrderId());
     }
 
     private boolean isDoubleAddress(Address address) {
@@ -99,10 +99,16 @@ public class DeliveryService {
         return delivery.getFromAddress().getStreet().equals(delivery.getToAddress().getStreet());
     }
 
+    @Transactional
     public BigDecimal calculateCostDelivery(OrderDto orderDto) {
         if (orderDto.getDeliveryId() == null) throw new NotEnoughInfoInOrderToCalculateException("Недостаточно данных");
         BigDecimal outCost = BASE_COST;
         Delivery orderDelivery = getById(orderDto.getDeliveryId());
+
+        orderDelivery.setDeliveryWeight(orderDto.getDeliveryWeight());
+        orderDelivery.setDeliveryVolume(orderDto.getDeliveryVolume());
+        orderDelivery.setFragile(orderDto.getFragile());
+        deliveryRepository.save(orderDelivery);
 
         if (isDoubleAddress(orderDelivery.getFromAddress())) {
             outCost = outCost.multiply(BigDecimal.valueOf(2)).add(BASE_COST);

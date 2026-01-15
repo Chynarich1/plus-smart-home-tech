@@ -23,11 +23,6 @@ public class Order {
     private UUID orderId;
     private UUID shoppingCartId;
     private String username;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "address_id"
-    )
-    private Address address;
     @ElementCollection
     @CollectionTable(
             name = "order_products",
@@ -39,6 +34,7 @@ public class Order {
     private Map<UUID, Long> products = new HashMap<>();
     private UUID paymentId;
     private UUID deliveryId;
+    @Enumerated(EnumType.STRING)
     private OrderState state;
     private Double deliveryWeight;
     private Double deliveryVolume;

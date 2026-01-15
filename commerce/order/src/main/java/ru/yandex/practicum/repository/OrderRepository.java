@@ -9,6 +9,4 @@ import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> findByUsername(String userId);
-
-    Optional<Order> findByOrderId(UUID id);
 }

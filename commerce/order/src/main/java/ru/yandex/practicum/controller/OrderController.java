@@ -37,23 +37,23 @@ public class OrderController implements OrderOperations {
         return orderService.returnOrder(returnRequest);
     }
 
-    @PostMapping("/payment")
-    public OrderDto payOrder(@NotNull @RequestBody UUID id) {
+    @Override
+    public OrderDto payOrder(UUID id) {
         return orderService.payOrder(id);
     }
 
-    @PostMapping("/payment/failed")
-    public OrderDto failOrder(@NotNull @RequestBody UUID id) {
+    @Override
+    public OrderDto failOrder(UUID id) {
         return orderService.failOrder(id);
     }
 
-    @PostMapping("/delivery")
-    public OrderDto deliverOrder(@NotNull @RequestBody UUID id) {
+    @Override
+    public OrderDto deliverOrder(UUID id) {
         return orderService.deliverOrder(id);
     }
 
-    @PostMapping("/delivery/failed")
-    public OrderDto deliverFailedOrder(@NotNull @RequestBody UUID id) {
+    @Override
+    public OrderDto deliverFailedOrder(UUID id) {
         return orderService.deliverFailedOrder(id);
     }
 
@@ -72,8 +72,8 @@ public class OrderController implements OrderOperations {
         return orderService.calculateDeliveryPrice(id);
     }
 
-    @PostMapping("/assembly")
-    public OrderDto assemblyOrder(@NotNull @RequestBody UUID id) {
+    @Override
+    public OrderDto assemblyOrder(UUID id) {
         return orderService.assemblyOrder(id);
     }
 
