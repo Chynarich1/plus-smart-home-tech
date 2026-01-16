@@ -99,4 +99,8 @@ public class ProductService {
 
         return productMapper.toDto(existingProduct);
     }
+
+    public List<ProductDto> getProductsByIds(List<UUID> ids) {
+        return productMapper.toDtos(productRepository.findAllById(ids));
+    }
 }

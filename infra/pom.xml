@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>config-server</module>
+        <module>gateway</module>
     </modules>
 
 </project>

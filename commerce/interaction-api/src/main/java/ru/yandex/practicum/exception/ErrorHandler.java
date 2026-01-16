@@ -51,4 +51,23 @@ public class ErrorHandler {
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(Map.of("error", "Склад отдыхает", "message", e.getMessage()));
     }
+
+    @ExceptionHandler(NoOrderFoundException.class)
+    public ResponseEntity<ErrorResponse>
+    handleNoOrderFoundException(final NoOrderFoundException e) {
+        return ErrorResponseFabric.responseFabric(e, "Заказ не найден", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotEnoughInfoInOrderToCalculateException.class)
+    public ResponseEntity<ErrorResponse>
+    handleNotEnoughInfoInOrderToCalculateException(final NotEnoughInfoInOrderToCalculateException e) {
+        return ErrorResponseFabric.responseFabric(e, "Недостаточно информации для калькуляции ордера",
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoDeliveryFoundException.class)
+    public ResponseEntity<ErrorResponse>
+    handleNoDeliveryFoundException(final NoDeliveryFoundException e) {
+        return ErrorResponseFabric.responseFabric(e, "Не найдена доставка", HttpStatus.NOT_FOUND);
+    }
 }

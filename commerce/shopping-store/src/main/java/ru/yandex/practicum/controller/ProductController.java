@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.client.shopping_store.ShoppingStoreClient;
+import ru.yandex.practicum.client.shopping_store.ShoppingStoreOperations;
 import ru.yandex.practicum.dto.product.ProductCategory;
 import ru.yandex.practicum.dto.product.ProductDto;
 import ru.yandex.practicum.dto.product.QuantityState;
@@ -18,7 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/shopping-store")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController implements ShoppingStoreOperations {
     private final ProductService productService;
 
     @GetMapping
@@ -55,5 +57,10 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ProductDto getOneProduct(@PathVariable UUID productId) {
         return productService.getOneProduct(productId);
+    }
+
+    @PostMapping("/products")
+    public List<ProductDto> getProductsByIds(@RequestBody List<UUID> ids) {
+        return productService.getProductsByIds(ids);
     }
 }
